@@ -1,6 +1,6 @@
 {
   "name": "elmer-validation",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "form validation",
   "typings": "lib/index.d.ts",
   "main": "lib/index.js",
@@ -37,9 +37,10 @@
     "all": true
   },
   "keywords": [
-    "worker",
-    "blob",
-    "worker"
+    "validation",
+    "elmerUI",
+    "react",
+    "angular"
   ],
   "author": "elmer mo",
   "license": "ISC",
