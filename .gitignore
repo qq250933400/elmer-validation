@@ -1,0 +1,10 @@
+/node_modules/
+/mochawesome-report/
+/.nyc_output/
+/coverage/
+/demo/
+/.vscode/
+yarn.lock
+package-lock.json
+/example/
+/lib/
