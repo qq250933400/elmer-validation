@@ -7,7 +7,6 @@
   "module": "lib/index.js",
   "scripts": {
     "test": "mocha  --reporter mochawesome",
-    "testReport": "mocha -r ./node_modules/ts-node/register ./test/index.test.js ./test/**/*.test.js -coverage --reporter mochawesome",
     "cover": "nyc --reporter=html mocha",
     "lib": "tsc -w",
     "build": "tsc",

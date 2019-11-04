@@ -6,9 +6,11 @@ export type ValidateParamsRules = {
     rule: Validator
 };
 
-export type ValidateParams = {
-    sectionId: string,
-    validators?: ValidateParamsRules[]
+export type ValidateConfig = {
+    sectionId: string;
+};
+export type ValidateParams = ValidateConfig & {
+    validators?: ValidateParamsRules[];
 };
 
 export type ValidateCallback<T> = (validateId: string, value:any, options?: T & IValidatorOptions) => {};
@@ -37,9 +39,12 @@ export type ValidateErrorOptions = {
 };
 
 export type ValidateErrorCallBack = (errorCode: string, message: string, options:ValidateErrorOptions) => {};
+export type unRegisteCallBack = (sectionId: string, validateId: string) => {};
 
 export type ValidationComponent<T> = T & {
     validate: ValidateCallback<T>;
     validateByTag: ValidateByTagCallback<T>;
     onValidationError: ValidateErrorCallBack;
+    unRegiste: unRegisteCallBack;
+    validateParams:ValidateConfig;
 };

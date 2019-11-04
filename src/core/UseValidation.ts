@@ -4,12 +4,14 @@ import { ValidateParams } from "./ValidationTypes";
 export const UseValidation = (params:ValidateParams) => {
     return (target:any) => {
         const targetObj = target.prototype || target;
+        const bindParams = {...params};
+        delete bindParams.validators;
         Object.defineProperty(targetObj, "validateParams", {
             configurable: false,
             enumerable: false,
             // tslint:disable-next-line:object-literal-sort-keys
             get:():ValidateParams=> {
-                return params;
+                return bindParams;
             },
             set: () => {
                 throw new Error("The property [validateParams] can not be override.");
