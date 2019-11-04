@@ -71,27 +71,27 @@ export class ValidationProvider extends Common {
             rules.map((validatorRule:ValidateParamsRules) => {
                 if(!state.validators[validatorRule.name]) {
                     if(typeof validatorRule.rule === "function") {
-                        Object.defineProperty(state, "validators", {
+                        Object.defineProperty(state.validators, validatorRule.name, {
                             configurable: false,
                             enumerable: false,
                             value: validatorRule.rule,
                             writable: false
                         });
                     } else {
-                        throw new Error(`The validator rule ${validatorRule.name} is not a function`);
+                        ValidationProvider.handleError(self, "V-ERR-RULE-EXISTS", `The validator rule ${validatorRule.name} is not a function`);
                     }
                 }
             });
             Object.defineProperty(target, "validate", {
                 configurable: false,
                 enumerable: false,
-                value: ValidationProvider.doValidateById.bind(target),
+                value: ValidationProvider.doValidateById,
                 writable: false
             });
             Object.defineProperty(target, "validateByTag", {
                 configurable: false,
                 enumerable: false,
-                value: ValidationProvider.doValidateByTag.bind(target),
+                value: ValidationProvider.doValidateByTag,
                 writable: false
             });
         } else {

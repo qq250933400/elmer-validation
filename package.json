@@ -1,6 +1,6 @@
 {
   "name": "elmer-validation",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "form validation",
   "typings": "lib/index.d.ts",
   "main": "lib/index.js",
