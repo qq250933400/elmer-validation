@@ -47,4 +47,5 @@ export type ValidationComponent<T> = T & {
     onValidationError: ValidateErrorCallBack;
     unRegiste: unRegisteCallBack;
     validateParams:ValidateConfig;
+    registe: (options: ValidateRegisteOptions<T>) => {};
 };

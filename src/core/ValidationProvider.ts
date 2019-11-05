@@ -100,6 +100,12 @@ export class ValidationProvider extends Common {
                 value: ValidationProvider.doUnRegiste,
                 writable: false
             });
+            Object.defineProperty(target, "registe", {
+                configurable: false,
+                enumerable: false,
+                value: ValidationProvider.registe,
+                writable: false
+            });
         } else {
             throw new Error("UseValidation initialization failed, Please do ValidationProvider.init first");
         }
