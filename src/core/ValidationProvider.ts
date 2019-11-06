@@ -14,13 +14,25 @@ import { IValidatorOptions, Validator } from "./Validator";
 
 export class ValidationProvider extends Common {
     static init = () => {
-        throw new Error("Please use override method to set data saving location");
+        if(!window["ElmerValidationState"]) {
+            ValidationProvider.defineReadonlyProperty(window, "ElmerValidationState", {});
+            ValidationProvider.defineReadonlyProperty(window["ElmerValidationState"], "context", {});
+            ValidationProvider.defineReadonlyProperty(window["ElmerValidationState"], "validators", {});
+        }
     }
     static getState = () => {
-        throw new Error("Please use override method to set getStore");
+        return window["ElmerValidationState"];
     }
     static isEmpty = (val:any) => {
         return val === undefined || val === null || (Object.prototype.toString.call(val) === "[object String]" && val.length === 0);
+    }
+    static defineReadonlyProperty = (target:any, propertyKey: string, propertyValue:any): void => {
+        Object.defineProperty(target, propertyKey, {
+            configurable: false,
+            enumerable: false,
+            value: propertyValue,
+            writable: false
+        });
     }
     static overrideInit = (fn:Function): boolean => {
         Object.defineProperty(ValidationProvider, "init", {
@@ -43,6 +55,31 @@ export class ValidationProvider extends Common {
     static bindValidateMethod = (target:any, params: ValidateParams): void => {
         const rules = params.validators || [];
         const state:ValidationState = ValidationProvider.getState(); // get validation global state;
+        // inject validate method to target
+        Object.defineProperty(target, "validate", {
+            configurable: false,
+            enumerable: false,
+            value: ValidationProvider.doValidateById,
+            writable: false
+        });
+        Object.defineProperty(target, "validateByTag", {
+            configurable: false,
+            enumerable: false,
+            value: ValidationProvider.doValidateByTag,
+            writable: false
+        });
+        Object.defineProperty(target, "unRegiste", {
+            configurable: false,
+            enumerable: false,
+            value: ValidationProvider.doUnRegiste,
+            writable: false
+        });
+        Object.defineProperty(target, "registe", {
+            configurable: false,
+            enumerable: false,
+            value: ValidationProvider.registe,
+            writable: false
+        });
         if(state) {
             if(!state.validators) {
                 Object.defineProperty(state, "validators", {
@@ -82,32 +119,6 @@ export class ValidationProvider extends Common {
                     }
                 }
             });
-            Object.defineProperty(target, "validate", {
-                configurable: false,
-                enumerable: false,
-                value: ValidationProvider.doValidateById,
-                writable: false
-            });
-            Object.defineProperty(target, "validateByTag", {
-                configurable: false,
-                enumerable: false,
-                value: ValidationProvider.doValidateByTag,
-                writable: false
-            });
-            Object.defineProperty(target, "unRegiste", {
-                configurable: false,
-                enumerable: false,
-                value: ValidationProvider.doUnRegiste,
-                writable: false
-            });
-            Object.defineProperty(target, "registe", {
-                configurable: false,
-                enumerable: false,
-                value: ValidationProvider.registe,
-                writable: false
-            });
-        } else {
-            throw new Error("UseValidation initialization failed, Please do ValidationProvider.init first");
         }
     }
     // tslint:disable-next-line:typedef
@@ -131,6 +142,11 @@ export class ValidationProvider extends Common {
                     if(value === undefined || value === null) {
                         ValidationProvider.handleError(this, "VD-REQUIRE-001", "Required item cannot be empty.", errOptions);
                         return false;
+                    }
+                } else {
+                    // Validation action not required field
+                    if(ValidationProvider.isEmpty(value)) {
+                        return true;
                     }
                 }
                 if(typeof ValidateClass === "function") {
@@ -206,7 +222,12 @@ export class ValidationProvider extends Common {
             throw new Error("The sectionId and validateId can not be an empty string");
         }
         if(!state.context[options.sectionId]) {
-            throw new Error("The sectionId is not exists, please use the value that defined by UseValidation");
+            Object.defineProperty(state.context, options.sectionId, {
+                configurable: false,
+                enumerable: false,
+                value: {},
+                writable: false
+            });
         }
         if(defineValidators[options.validateType] || (<any>Validators)[options.validateType]) {
             if(!state.context[options.sectionId][options.validateId]) {

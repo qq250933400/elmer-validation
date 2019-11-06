@@ -3,7 +3,7 @@ import { ValidateParams } from "./ValidationTypes";
 
 export const UseValidation = (params:ValidateParams) => {
     return (target:any) => {
-        const targetObj = target.prototype || target;
+        const targetObj = typeof target === "function" ? target.prototype : target;
         const bindParams = {...params};
         delete bindParams.validators;
         Object.defineProperty(targetObj, "validateParams", {
