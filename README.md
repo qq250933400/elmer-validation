@@ -4,7 +4,7 @@ Form field validation
 
 #### 版本更新：
 	# v1.0.3
-		* 新增DefineValidator方法
+	    * 新增DefineValidator方法
 	    * 修复不重写init, getState方法不能使用UseValidation问题
 	    * 修复BindValiateMethod方法，未初始化state不能使用UseValidation问题
 	# v1.0.2
