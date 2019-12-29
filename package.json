@@ -1,6 +1,6 @@
 {
   "name": "elmer-validation",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "form validation",
   "typings": "lib/index.d.ts",
   "main": "lib/index.js",
@@ -64,7 +64,7 @@
     "chalk": "^2.4.1",
     "core-js": "^2.5.7",
     "decorator": "^0.0.1",
-    "elmer-common": "^0.0.4",
+    "elmer-common": "^0.0.8",
     "eslint-plugin-typescript": "^0.12.0",
     "jsdom": "^15.2.0",
     "mocha": "^6.2.1",

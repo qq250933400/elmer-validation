@@ -3,6 +3,8 @@
 Form field validation
 
 #### 版本更新：
+        # v1.0.4
+            * 升级elmer-common版本v0.0.8
 	# v1.0.3
 	    * 新增DefineValidator方法
 	    * 修复不重写init, getState方法不能使用UseValidation问题
